@@ -2,8 +2,10 @@ import numpy as np
 from flask import Flask, request, jsonify, render_template
 import pickle
 from sklearn.preprocessing import PolynomialFeatures
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
+cors = CORS(app)
 
 @app.route('/predict',methods=['POST'])
 def predict():
@@ -33,8 +35,12 @@ def predict():
 
     x = int(data['month']) + ((int(data['year']) - 2013)*12) - 1
     prediction = model.predict(poly.fit_transform([[x]]))
+    output = prediction[0][0]
 
-    return jsonify({'success' : True, 'prediction' : prediction[0][0]})
+    if(data['withCovid'] and  medicine == 'aspirin'):
+        output = output + output*0.4
+
+    return jsonify({'success' : True, 'prediction' : output})
 
 
 if __name__ == "__main__":
