@@ -40,6 +40,9 @@ def predict():
     if(data['withCovid'] and  medicine == 'aspirin'):
         output = output + output*0.4
 
+    if(output < 0):
+        output = output * (-1)
+
     return jsonify({'success' : True, 'prediction' : output})
 
 
