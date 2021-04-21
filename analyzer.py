@@ -10,6 +10,7 @@ dataset = pd.read_csv('niffidipine20er.csv')
 X = pd.DataFrame({})
 y = pd.DataFrame({})
 
+# date preprocessing
 tempX_set = { 'x' : [] }
 tempY_set = { 'y' : [] }
 count = 0
@@ -34,7 +35,7 @@ Y = pd.DataFrame(tempY_set)
 #plt.ylabel('Year and Month')
 #plt.show()
 
-
+# create model
 poly = PolynomialFeatures(degree = 4)
 X_poly = poly.fit_transform(X)
   
@@ -43,9 +44,11 @@ poly_regressor = LinearRegression()
 
 poly_regressor.fit(X_poly, Y)
 
+# plot model
 plt.scatter(X,Y, color='red')
 plt.plot(X, poly_regressor.predict(poly.fit_transform(X)),color='blue')
 plt.title("Niffidipine 20 ER Purchase Rate")
 plt.ylabel('Qunatity')
 plt.xlabel('Months starts for Jan 2013')
 plt.show()
+

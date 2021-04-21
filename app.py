@@ -7,6 +7,7 @@ from flask_cors import CORS, cross_origin
 app = Flask(__name__)
 cors = CORS(app)
 
+#get prediction of each medicine end point  
 @app.route('/predict',methods=['POST'])
 def predict():
     data = request.get_json()
@@ -14,6 +15,8 @@ def predict():
     poly = None
 
     medicine = data['medicine']
+
+    # load relevant model
     if medicine == 'adorastatin':
         poly = PolynomialFeatures(degree = 3)
         model = pickle.load(open('adorastatin_model.pkl', 'rb'))
@@ -34,6 +37,8 @@ def predict():
 
 
     x = int(data['month']) + ((int(data['year']) - 2013)*12) - 1
+
+    #predict the value
     prediction = model.predict(poly.fit_transform([[x]]))
     output = prediction[0][0]
 

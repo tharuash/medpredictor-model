@@ -9,6 +9,7 @@ dataset = pd.read_csv('niffidipine20er.csv')
 X = pd.DataFrame({})
 y = pd.DataFrame({})
 
+# data preprocessing
 tempX_set = { 'x' : [] }
 tempY_set = { 'y' : [] }
 count = 0
@@ -22,6 +23,7 @@ for index, row in dataset.iterrows():
 X = pd.DataFrame(tempX_set)
 Y = pd.DataFrame(tempY_set)
 
+# create model
 poly = PolynomialFeatures(degree = 4)
 X_poly = poly.fit_transform(X)
   
@@ -30,4 +32,5 @@ poly.fit(X_poly, y)
 regressor = LinearRegression()
 regressor.fit(X_poly, Y)
 
+# dump model
 pickle.dump(regressor, open('niffidipine_model.pkl','wb'))
